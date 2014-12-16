@@ -91,6 +91,14 @@ AfterMake :
 	rm -vf src/*.o;
 	mv -vf $(TL_ROOT)/libthreadlite.so $(OUT_DIR)/dynamic/libthreadlite.so.$(shell ./version)
 
+install :
+	mkdir -p /usr/local/include/tl 
+	cp $(TL_ROOT)/inc/*.h /usr/local/include/tl
+	mkdir -p /usr/local/lib
+	cp $(OUT_DIR)/dynamic/libthreadlite.so.$(shell ./version) /usr/local/lib
+	rm -f /usr/local/lib/libthreadlite.so 
+	ln -s /usr/local/lib/libthreadlite.so.$(shell ./version) /usr/local/lib/libthreadlite.so 
+	
 debug : PreProcess $(STATIC_LIBS) $(DYNAMIC_LIBS) $(EXECUTABLE) $(TEST_CASE) AfterMake
 	@exit 0
 
